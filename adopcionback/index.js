@@ -1,3 +1,4 @@
+require("dotenv").config();
 const fastify = require("fastify")({ logger: true });
 const jwt = require("@fastify/jwt");
 const prisma = require("./prismaClient");
