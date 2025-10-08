@@ -13,3 +13,15 @@ model User {
   password  String
   createdAt DateTime @default(now())
 }
+
+model Mascota {
+  id                Int      @id @default(autoincrement())
+  nombre            String
+  descripcion       String?
+  edad              Int?
+  especie           String
+  raza              String?
+  estadoPublicacion Boolean  @default(true)
+  fotoAnimal        String?
+  createdAt         DateTime @default(now())
+}

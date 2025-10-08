@@ -3,6 +3,7 @@ const fastify = require("fastify")({ logger: true });
 const jwt = require("@fastify/jwt");
 const prisma = require("./prismaClient");
 const bcrypt = require("bcrypt");
+const cors = require("@fastify/cors");
 
 fastify.addContentTypeParser(
   "text/plain",
@@ -18,6 +19,7 @@ fastify.addContentTypeParser(
 );
 
 fastify.register(jwt, { secret: process.env.JWT_SECRET });
+fastify.register(cors, { origin: true });
 
 fastify.decorate("authenticate", async (request, reply) => {
   try {
@@ -63,5 +65,20 @@ fastify.post("/login", async (req, reply) => {
 fastify.get("/dashboard", { preHandler: [fastify.authenticate] }, async () => ({
   secret: "Solo usuarios autenticados pueden ver esto!",
 }));
+
+// Ruta para obtener mascotas
+fastify.get("/pets", async (req, reply) => {
+  try {
+    const pets = await prisma.mascota.findMany(
+      {
+        where: { estadoPublicacion: true } 
+      }
+    );
+    return reply.code(200).send(pets);
+  } catch (error) {
+    return reply.code(500).send({ error: "Error al obtener mascotas" });
+  }
+});
+
 
 fastify.listen({ port: process.env.PORT || 4000, host: "0.0.0.0" });
