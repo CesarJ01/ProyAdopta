@@ -2,14 +2,25 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 export default function LoginForm() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState<string | null>(null);
 
-    // Aquí manejamos la lógica de envío del formulario
+    const { login } = useAuth();
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError(null);
+
+        try {
+            await login(username, password);
+        } catch (err) {
+            const errorMessage = (err as Error).message;
+            setError(errorMessage);
+        }
     }
     
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,13 +34,21 @@ export default function LoginForm() {
 
 return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50">
-        <div className="w-full max-w-md p-8 space-y-6 rounded-lg shadow-lg">
+        <div className="w-full max-w-md p-8 space-y-6 rounded-lg shadow-lg bg-white">
             <h2 className="mt-6 text-center text-3xl font-extrabold text-black">
                 Iniciar Sesión
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
                 Ingresa tus credenciales para acceder a tu cuenta
             </p>
+
+            {/* Mensaje de Error */}
+            {error && (
+                <div className="p-3 text-sm text-red-700 bg-red-100 rounded-md text-center border border-red-300">
+                    {error}
+                </div>
+            )}
+
             <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                 {/* Campo Usuario */}
                 <div>
@@ -73,7 +92,7 @@ return (
                 <div>
                     <button
                         type="submit"
-                        className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                        className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors disabled:bg-purple-400 disabled:cursor-not-allowed"
                     >
                         Iniciar Sesión
                     </button>

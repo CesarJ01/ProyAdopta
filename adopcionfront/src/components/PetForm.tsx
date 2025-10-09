@@ -56,7 +56,7 @@ export default function PetForm({ initialData }: PetFormProps) {
         await createPet(formData);
         setFormData(defaultInitialData); 
       }
-      router.push('/');
+      router.push('/dashboard');
 
     } catch (err) {
       console.error("Error al enviar el formulario:", err);
