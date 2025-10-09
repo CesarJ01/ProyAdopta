@@ -1,19 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { fetchMascotas } from "@/libs/fetcher";
-
-// Definición de tipos
-interface Pet {
-  id: number;
-  nombre: string;
-  especie: string;
-  raza: string | null;
-  edad: string | null;
-  descripcion: string | null;
-  fotoAnimal: string | null;
-  createdAt: string;
-}
+import { Pet, fetchPublishedPets } from "@/libs/fetcher";
 
 export default function PetListing() {
   const [pets, setPets] = useState<Pet[]>([]);
@@ -21,7 +9,7 @@ export default function PetListing() {
   useEffect(() => {
     const loadPets = async () => {
       try {
-        const data = await fetchMascotas();
+        const data = await fetchPublishedPets();
         setPets(data);
       } catch (err) {
         console.error("Error al obtener las mascotas:", err);
@@ -63,7 +51,7 @@ export default function PetListing() {
               {/* CardHeader con la Imagen */}
               <div className="h-64 overflow-hidden">
                 <img
-                  src={pet.fotoAnimal || "/placeholder.svg"}
+                  src={pet.fotoAnimal || "https://ih1.redbubble.net/image.5375387998.4989/flat,750x,075,f-pad,750x1000,f8f8f8.u1.jpg"}  //! MODIFICAR EL PLACEHOLDER X SI NO SE INGRESA IMAGEN
                   alt={pet.nombre}
                   className="h-full w-full object-cover"
                 />
