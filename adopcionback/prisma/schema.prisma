@@ -11,5 +11,21 @@ model User {
   id        Int      @id @default(autoincrement())
   username  String   @unique
   password  String
+  role      String   @default("user")
   createdAt DateTime @default(now())
+  mascotas  Mascota[]
+}
+
+model Mascota {
+  id           Int      @id @default(autoincrement())
+  nombre       String
+  descripcion  String?
+  raza         String
+  especie      String
+  edad         Int
+  fotoAnimal   String?
+  perfilMedico String?
+  creadoPorId  Int
+  creadoPor    User     @relation(fields: [creadoPorId], references: [id])
+  createdAt    DateTime @default(now())
 }
