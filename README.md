@@ -1,4 +1,4 @@
-# 📦 Proyecto: Sistema de Registro y Login con Fastify, JWT y Prisma
+# 📦 AdoptaPro: Sistema de Registro y Login con Fastify, JWT y Prisma
 
 ## Descripción
 Backend en **Node.js** que permite:
@@ -8,58 +8,75 @@ Backend en **Node.js** que permite:
 - Manejar passwords con **bcryptjs**
 - Soportar body en **JSON** o `text/plain` para Postman
 
-## Requisitos
-- Node.js ≥ 18
-- npm
-- XAMPP con MySQL corriendo en `localhost:3306`
-- Base de datos creada: `adopta`
+---
+
+## Requisitos 
+* **Node.js**: Versión `≥ 18`.
+* **npm**: Se incluye con la instalación de Node.js.
+* **XAMPP**: Necesario para el servidor web y la base de datos **MySQL**.
+
+---
 
 ## Instalación
-1. Clonar el proyecto:
+
+### 1. Clonación del Repositorio
+
+1.  **Clonar el repositorio:**
+    ```bash
+    git clone <URL_DEL_REPOSITORIO>
+    ```
+2.  **Instalar dependencias:**
+    ```bash
+    # Para backend
+    cd adopcionback/
+    npm install
+
+    # Para frontend
+    cd ../adopcionfront/
+    npm install
+    ```
+
+### 2. Configurar variable de entorno
+1.  Navega al directorio del backend (`adopcionback/`).
+
+2.  Crea un archivo llamado **`.env`** y añade la siguiente configuración:
+
+    ```env
+    DATABASE_URL="mysql://root:@localhost:3306/adopta"
+    JWT_SECRET="supersecreto"
+    PORT=4000
+    ```
+    > **Nota:** Si tu usuario de MySQL usa una contraseña, modifica `root:@` a `usuario:contraseña@`.
+
+### 3. Preparar el Entorno
+
+Abre el Panel de Control de **XAMPP** e inicia los servicios:
+* **Apache**
+* **MySQL**
+
+### 4. Inicializar la Base de Datos (Prisma Migración)
+
+Usa Prisma para generar las tablas en la base de datos `adopta`.
+
 ```bash
-git clone <repo-o-carpeta>
-cd adopcionback
-Instalar dependencias:
+cd adopcionback/ 
+npx prisma migrate dev --name init_schema
+```
 
-bash
-Copiar código
-npm install
-npm install bcryptjs @prisma/client @fastify/jwt
-Inicializar Prisma:
+---
 
-bash
-Copiar código
-npx prisma init
-Configurar .env:
+## Ejecución
 
-env
-Copiar código
-DATABASE_URL="mysql://root:@localhost:3306/adopta"
-JWT_SECRET="supersecreto"
-PORT=4000
-Crear migración y generar cliente Prisma:
+### 1. Ejecución del backend:
 
-bash
-Copiar código
-npx prisma migrate dev --name init
-Estructura del proyecto
-pgsql
-Copiar código
-adopcionback/
-├─ prisma/
-│   └─ schema.prisma
-├─ node_modules/
-├─ index.js
-├─ prismaClient.js
-├─ package.json
-├─ package-lock.json
-└─ .env
-
-
-Ejecutar el servidor
+```bash
+cd adopcionback/
 node index.js
+```
 
+### 2. Ejecución del frontend:
 
-Servidor corriendo en http://localhost:4000
-
-Logs visibles en consola
+```bash
+cd adopcionfront/
+npm run dev
+```

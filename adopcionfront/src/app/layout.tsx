@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PROYECTO ADOPTA",
+  title: "ProAdopta",
   description: "Plataforma para la adopción de mascotas",
 };
 
